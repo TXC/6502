@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              x:Class="Simulator.MainPage"
              x:DataType="ContentPage">
 
@@ -15,7 +14,7 @@
             <Button Text="Fill"   Clicked="OnHorizontalFillClicked"   />
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout  Grid.Row="1" Spacing="10">
+        <HorizontalStackLayout Grid.Row="1" Spacing="10">
             <Button Text="SaveState"
                     Height="23"
                     Margin="145,506,0,0"
