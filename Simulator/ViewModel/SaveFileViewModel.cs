@@ -79,7 +79,7 @@ namespace Simulator.ViewModel
 
         private static void Close()
         {
-            Messenger.Default.Send(new NotificationMessage("CloseSaveFileWindow"));
+            WeakReferenceMessenger.Default.Send(new NotificationMessage("CloseSaveFileWindow"));
         }
 
         private void Select()
@@ -92,8 +92,8 @@ namespace Simulator.ViewModel
                 return;
 
             Filename = dialog.FileName;
-            RaisePropertyChanged("Filename");
-            RaisePropertyChanged("SaveEnabled");
+            OnPropertyChanged(nameof(Filename));
+            OnPropertyChanged(nameof(SaveEnabled));
 
         }
         #endregion

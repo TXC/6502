@@ -12,8 +12,8 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
+using CommunityToolkit.Mvvm.DependencyInjection;
+//using Microsoft.Practices.ServiceLocation;
 
 namespace Simulator.ViewModel
 {
@@ -23,16 +23,30 @@ namespace Simulator.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public static ViewModelLocator Current => ViewModelLocator.Current;
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<OpenFileViewModel>();
-            SimpleIoc.Default.Register<SaveFileViewModel>();
+            //ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            Ioc.Default.ConfigureServices(
+            new ServiceCollection()
+            .AddTransient<MainViewModel>()
+            .AddTransient<OpenFileViewModel>()
+            .AddTransient<SaveFileViewModel>()
+            .BuildServiceProvider());
+
+            //SimpleIoc.Default.Register<MainViewModel>();
+            //SimpleIoc.Default.Register<OpenFileViewModel>();
+            //SimpleIoc.Default.Register<SaveFileViewModel>();
         }
 
         /// <summary>

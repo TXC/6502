@@ -517,7 +517,7 @@ namespace Simulator.ViewModel
             if (_backgroundWorker.IsBusy)
                 _backgroundWorker.CancelAsync();
 
-            Messenger.Default.Send(new NotificationMessage("OpenFileWindow"));
+            WeakReferenceMessenger.Default.Send(new NotificationMessage("OpenFileWindow"));
         }
 
         private void SaveState()
@@ -527,7 +527,7 @@ namespace Simulator.ViewModel
             if (_backgroundWorker.IsBusy)
                 _backgroundWorker.CancelAsync();
 
-            Messenger.Default.Send(new NotificationMessage<StateFileModel>(new StateFileModel
+            WeakReferenceMessenger.Default.Send(new NotificationMessage<StateFileModel>(new StateFileModel
                 {
                     NumberOfCycles = NumberOfCycles,
                     Listing = Listing,

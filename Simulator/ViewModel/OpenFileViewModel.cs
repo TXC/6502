@@ -106,7 +106,7 @@ namespace Simulator.ViewModel
 
             stream.Close();
 
-            Messenger.Default.Send(new NotificationMessage<StateFileModel>(fileModel, "FileLoaded"));
+            WeakReferenceMessenger.Default.Send(new NotificationMessage<StateFileModel>(fileModel, "FileLoaded"));
 
             return true;
         }
@@ -159,7 +159,7 @@ namespace Simulator.ViewModel
                 return false;
             }
 
-            Messenger.Default.Send(new NotificationMessage<AssemblyFileModel>(new AssemblyFileModel
+            WeakReferenceMessenger.Default.Send(new NotificationMessage<AssemblyFileModel>(new AssemblyFileModel
             {
                 InitialProgramCounter = programCounter,
                 MemoryOffset = memoryOffset,
@@ -173,7 +173,7 @@ namespace Simulator.ViewModel
 
         private static void Close()
         {
-            Messenger.Default.Send(new NotificationMessage("CloseFileWindow"));
+            WeakReferenceMessenger.Default.Send(new NotificationMessage("CloseFileWindow"));
         }
 
         private async void Select()

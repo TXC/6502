@@ -14,7 +14,7 @@ public partial class MainPage : ContentPage
 	public MainPage()
 	{
 		InitializeComponent();
-        WeakReferenceMessenger.Default.Register<OpenFileViewModel, OpenFileRequestMessage>(this, (r, m) => m.Reply(r.Username));
+        WeakReferenceMessenger.Default.Register<OpenFileViewModel, OpenFileRequestMessage>(this, (r, m) => m.value(r.Username));
         WeakReferenceMessenger.Default.Register<SaveFileViewModel, SaveFileRequestMessage>(this, (r, m) => m.Reply(r.Username));
     }
 
