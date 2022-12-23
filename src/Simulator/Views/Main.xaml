@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Simulator.ViewModel"
+             xmlns:model="clr-namespace:Simulator.Model"
+             x:Class="Simulator.Views.Main"
+             x:DataType="vm:MainViewModel"
+             BindingContext="vm:MainViewModel"
+        >
+
+    <ContentPage.Resources>
+        <Style TargetType="FlexLayout" x:Key="FlexButtonStyle">
+            <Setter Property="Direction" Value="Row" />
+            <Setter Property="AlignItems" Value="Center" />
+            <Setter Property="JustifyContent" Value="SpaceEvenly" />
+            <Setter Property="MinimumHeightRequest" Value="45" />
+            <Setter Property="MaximumHeightRequest" Value="90" />
+            <Setter Property="MinimumWidthRequest" Value="525" />
+            <Setter Property="MaximumWidthRequest" Value="665" />
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="10,475" />
+        </Style>
+
+        <!--#region CPU Status -->
+        <Style TargetType="FlexLayout" x:Key="FlexStatusFlagStyle">
+            <Setter Property="Direction" Value="Column" />
+            <Setter Property="AlignItems" Value="Start" />
+            <Setter Property="JustifyContent" Value="SpaceBetween" />
+            <Setter Property="HeightRequest" Value="412" />
+            <Setter Property="WidthRequest" Value="55" />
+            <Setter Property="ToolTipProperties.Text" Value="Buttons" />
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="1141,32" />
+        </Style>
+        <Style TargetType="CheckBox" x:Key="StatusCheckBoxStyle">
+            <!--Setter Property="Color" Value="White" /-->
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="MinimumHeightRequest" Value="22"/>
+            <Setter Property="MinimumWidthRequest" Value="22"/>
+            <Setter Property="HeightRequest" Value="22" />
+            <Setter Property="WidthRequest" Value="22" />
+        </Style>
+        <Style TargetType="Label" x:Key="StatusLabelStyle">
+            <Setter Property="HeightRequest" Value="22" />
+            <Setter Property="WidthRequest" Value="22" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+        <!--#endregion-->
+
+        <Style TargetType="HorizontalStackLayout" x:Key="HeaderStyle">
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="10,10" />
+        </Style>
+        <Style TargetType="Editor" x:Key="EditorListingStyle">
+            <Setter Property="WidthRequest" Value="1112" />
+            <Setter Property="HeightRequest" Value="412" />
+            <Setter Property="IsSpellCheckEnabled" Value="False" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="10,32" />
+        </Style>
+
+        <!--#region Registers -->
+        <Style TargetType="FlexLayout" x:Key="FlexRegisterStyle">
+            <Setter Property="Direction" Value="Column" />
+            <Setter Property="AlignItems" Value="Start" />
+            <Setter Property="HeightRequest" Value="240" />
+            <Setter Property="WidthRequest" Value="400" />
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="1215,32" />
+        </Style>
+        <Style TargetType="Label" x:Key="RegisterLabelStyle">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="VerticalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="WidthRequest" Value="180" />
+        </Style>
+        <Style TargetType="Label" x:Key="RegisterValueStyle">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="VerticalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="WidthRequest" Value="220" />
+        </Style>
+        <!--#endregion-->
+
+        <!--#region CPUSettings -->
+        <Style TargetType="HorizontalStackLayout" x:Key="CPUSettingsStyle">
+            <Setter Property="WidthRequest" Value="300" />
+            <Setter Property="MinimumHeightRequest" Value="80" />
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="1215,291" />
+        </Style>
+        <!--#region CPU Count -->
+        <Style TargetType="Label" x:Key="CPUCountLabelStyle">
+            <Setter Property="WidthRequest" Value="150" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Text" Value="Cycle Count" />
+        </Style>
+        <Style TargetType="Label" x:Key="CPUCountValueStyle">
+            <Setter Property="WidthRequest" Value="150" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+        </Style>
+        <!--#endregion-->
+        <!--#region CPU Speed -->
+        <Style TargetType="Label" x:Key="CPUSpeedLabelStyle">
+            <Setter Property="WidthRequest" Value="150" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Text" Value="CPU Speed S->F" />
+        </Style>
+        <Style TargetType="Slider" x:Key="CPUSpeedSliderStyle">
+            <Setter Property="WidthRequest" Value="150" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="Minimum" Value="0" />
+            <Setter Property="Maximum" Value="10" />
+        </Style>
+        <!--#endregion-->
+        <!--#endregion-->
+
+        <!--#region Memory Map -->
+        <Style TargetType="ListView" x:Key="MemoryMapListStyle">
+            <Setter Property="WidthRequest" Value="555" />
+            <Setter Property="HeightRequest" Value="575" />
+            <Setter Property="AbsoluteLayout.LayoutBounds" Value="575,475" />
+            <Setter Property="ToolTipProperties.Text" Value="Memory Map" />
+
+        </Style>
+        <Style TargetType="HorizontalStackLayout" x:Key="MemoryMapStackStyle">
+            <Setter Property="WidthRequest" Value="555" />
+            <Setter Property="HeightRequest" Value="32" />
+        </Style>
+        <Style TargetType="Label" x:Key="MemoryMapLabelStyle">
+            <Setter Property="WidthRequest" Value="32" />
+            <Setter Property="HeightRequest" Value="20" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        <!--#endregion-->
+
+        <!--#region CPU Info -->
+        <Style TargetType="FlexLayout" x:Key="CPUInfoFlexLayoutStyle">
+            <Setter Property="WidthRequest" Value="800" />
+            <Setter Property="HeightRequest" Value="40" />
+        </Style>
+        <Style TargetType="Label" x:Key="CPUInfoLabelStyle">
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+        </Style>
+        <!--#endregion-->
+    </ContentPage.Resources>
+
+    <AbsoluteLayout Margin="0" WidthRequest="1627" Padding="0" BackgroundColor="Silver">
+
+        <!--#region Header (FilePath, CurrentPage) -->
+        <HorizontalStackLayout Style="{StaticResource HeaderStyle}">
+            <Label x:Name="FilePathText" Text="{Binding Path=FilePath}" WidthRequest="630" />
+            <Label x:Name="CurrentPageText" Text="Current Page: " WidthRequest="90"/>
+            <Label x:Name="CurrentPage" Text="{Binding Path=MemoryPageOffset}" WidthRequest="100"/>
+        </HorizontalStackLayout>
+        <!--#endregion Header (FilePath, CurrentPage) -->
+
+        <!--#region Buttons -->
+        <FlexLayout Style="{StaticResource FlexButtonStyle}">
+            <Button Text="Load" Command="{Binding Path=OpenCommand}"/>
+            <Button Text="Save" Command="{Binding Path= SaveStateCommand}"
+                    IsEnabled="{Binding Path= IsProgramLoaded}"/>
+            <Button Text="Run" Command="{Binding Path= RunPauseCommand}"
+                    IsEnabled="{Binding Path=IsProgramLoaded}"
+                    Style="{StaticResource RunButtonStyle}"/>
+            <Button Text="Step" Command="{Binding Path= StepCommand}"
+                    IsEnabled="{Binding Path=IsProgramLoaded}"/>
+            <Button Text="Reset" Command="{Binding Path= ResetCommand}"
+                    IsEnabled="{Binding Path=IsProgramLoaded}"/>
+            <Button Text="IRQ" Command="{Binding SendInterruptRequestCommand}"
+                    IsEnabled="{Binding IsProgramLoaded}"/>
+            <Button Text="NMI" Command="{Binding SendNonMaskableInterruptComand}"
+                    IsEnabled="{Binding IsProgramLoaded}"/>
+        </FlexLayout>
+        <!--#endregion Buttons -->
+
+        <!--#region CodeView -->
+        <Editor x:Name="CodeView" Text="{Binding Path=Listing, Mode=OneWay}"
+                Style="{StaticResource EditorListingStyle}"/>
+        <!--#endregion CodeView -->
+
+        <!--#region Memory Map -->
+        <ListView ItemsSource="{Binding MemoryPage}" Style="{StaticResource MemoryMapListStyle}">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout Style="{DynamicResource MemoryMapStackStyle}">
+                        <Label x:Name="OffsetH" Text="Offset (h)" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location00" Text="00" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location01" Text="01" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location02" Text="02" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location03" Text="03" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location04" Text="04" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location05" Text="05" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location06" Text="06" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location07" Text="07" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location08" Text="08" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location09" Text="09" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location0A" Text="0A" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location0B" Text="0B" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location0C" Text="0C" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location0D" Text="0D" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location0E" Text="0E" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        <Label x:Name="Location0F" Text="0F" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell x:DataType="model:MemoryRowModel">
+                        <HorizontalStackLayout Style="{DynamicResource MemoryMapStackStyle}">
+                            <Label x:Name="OffsetH" Text="{Binding Offset, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <!--Label x:Name="Location00" Text="{Binding Location00, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/-->
+                            <Label x:Name="Location00" Text="00" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location01" Text="{Binding Location01, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location02" Text="{Binding Location02, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location03" Text="{Binding Location03, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location04" Text="{Binding Location04, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location05" Text="{Binding Location05, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location06" Text="{Binding Location06, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location07" Text="{Binding Location07, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location08" Text="{Binding Location08, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location09" Text="{Binding Location09, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location0A" Text="{Binding Location0A, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location0B" Text="{Binding Location0B, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location0C" Text="{Binding Location0C, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location0D" Text="{Binding Location0D, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location0E" Text="{Binding Location0E, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                            <Label x:Name="Location0F" Text="{Binding Location0F, Mode=OneWay}" Style="{DynamicResource MemoryMapLabelStyle}"/>
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--#endregion Memory Map -->
+
+        <!--#region CPUInfo & OutputLog / Breakpoints -->
+        <VerticalStackLayout AbsoluteLayout.LayoutBounds="10,532" Spacing="19">
+            <!--#region CPUInfo / OutputLog -->
+            <ListView ItemsSource="{Binding OutputLog}" MaximumWidthRequest="800"
+                      MinimumHeightRequest="247">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <FlexLayout Style="{StaticResource CPUInfoFlexLayoutStyle}">
+                            <Label x:Name="PC" Text="PC" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="OpCode" Text="" MinimumWidthRequest="50"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="LowAddress" Text="" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="HighAddress" Text="" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="OpCodeString" Text="" MinimumWidthRequest="60"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="DisAssembly" Text="" MinimumWidthRequest="80"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="A" Text="A" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="X" Text="X" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="Y" Text="Y" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="SP" Text="SP" MinimumWidthRequest="40"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                            <Label x:Name="CycleCount" Text="CycleCount" MinimumWidthRequest="200"
+                                   Style="{StaticResource CPUInfoLabelStyle}"/>
+                        </FlexLayout>
+                    </DataTemplate>
+
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:DataType="model:OutputLog">
+                            <FlexLayout Style="{StaticResource CPUInfoFlexLayoutStyle}">
+                                <Label x:Name="PC" Text="{Binding ProgramCounter, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="OpCode" Text="{Binding CurrentOpCode, Mode=OneWay}"
+                                       MinimumWidthRequest="50" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="LowAddress" Text="{Binding LowAddress, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="HighAddress" Text="{Binding HighAddress, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="OpCodeString" Text="{Binding OpCodeString, Mode=OneWay}"
+                                       MinimumWidthRequest="60" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="DisAssembly" Text="{Binding DisassemblyOutput, Mode=OneWay}"
+                                       MinimumWidthRequest="80" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="A" Text="{Binding Accumulator, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="X" Text="{Binding XRegister, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="Y" Text="{Binding YRegister, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="SP" Text="{Binding StackPointer, Mode=OneWay}"
+                                       MinimumWidthRequest="40" Style="{StaticResource CPUInfoLabelStyle}"/>
+                                <Label x:Name="CycleCount" Text="{Binding NumberOfCycles, Mode=OneWay}"
+                                       MinimumWidthRequest="200" Style="{StaticResource CPUInfoLabelStyle}"/>
+                            </FlexLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--#endregion CPUInfo / OutputLog -->
+
+            <!--#region Breakpoints -->
+            <ListView ItemsSource="{Binding Breakpoints}" MinimumWidthRequest="546"
+                      MinimumHeightRequest="247"
+                      MaximumHeightRequest="800">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout MinimumWidthRequest="546" MaximumWidthRequest="800">
+                            <Label x:Name="isHeaderEnabled" Text="Enabled" MinimumWidthRequest="70"/>
+                            <Label x:Name="TypeHeader" Text="Type" MinimumWidthRequest="240"/>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:DataType="model:Breakpoint">
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Add A New Breakpoint"
+                                          IconImageSource="add.svg"
+                                          Command="{Binding Source={x:Reference listView}, Path=AddBreakPointCommand}"
+                                    />
+
+                                <MenuItem Text="Remove Selected Breakpoint"
+                                          IconImageSource="remove.svg"
+                                          Command="{Binding Source={x:Reference listView}, Path=RemoveBreakPointCommand}"
+                                    />
+                            </ViewCell.ContextActions>
+                            <ViewCell.View>
+                                <HorizontalStackLayout MinimumWidthRequest="546" MaximumWidthRequest="800">
+                                    <CheckBox x:Name="IsEnabled"
+                                              HorizontalOptions="Start"
+                                              VerticalOptions="Start"
+                                              MinimumWidthRequest="70"
+                                              IsChecked="{Binding IsEnabled}"
+                                    />
+
+                                    <Picker x:Name="Type"
+                                            Title="Type"
+                                            MinimumWidthRequest="240"
+                                            SelectedItem="{Binding Type}"
+                                            ItemsSource="{Binding AllTypes}"
+                                    />
+                                </HorizontalStackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--#endregion Breakpoints -->
+        </VerticalStackLayout>
+        <!--#endregion CPUInfo & OutputLog / Breakpoints -->
+
+        <!--#region REGISTERS -->
+        <FlexLayout Style="{StaticResource FlexRegisterStyle}">
+            <HorizontalStackLayout>
+                <Label x:Name="CurrentInstructionText" Text="Cur. Instruction" Style="{StaticResource RegisterLabelStyle}" />
+                <Label x:Name="Dissambly" Text="{Binding Path=CurrentDisassembly, StringFormat=X, Mode=OneWay}"
+                        Style="{StaticResource RegisterValueStyle}" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Label x:Name="ProgramCounterText" Text="PC" Style="{StaticResource RegisterLabelStyle}" />
+                <Label x:Name="ProgramCounter" Text="{Binding Path=Proc.ProgramCounter, StringFormat=X, Mode=OneWay}"
+                        Style="{StaticResource RegisterValueStyle}" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Label x:Name="StackPointerRegisterText" Text="SP" Style="{StaticResource RegisterLabelStyle}" />
+                <Label x:Name="StackPointer" Text="{Binding Path=Proc.StackPointer, StringFormat=X, Mode=OneWay}"
+                        Style="{StaticResource RegisterValueStyle}" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Label x:Name="YRegisterText" Text="Y" Style="{StaticResource RegisterLabelStyle}" />
+                <Label x:Name="YRegister" Text="{Binding Path=Proc.YRegister, StringFormat=X, Mode=OneWay}"
+                        Style="{StaticResource RegisterValueStyle}" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Label x:Name="XRegisterText" Text="X" Style="{StaticResource RegisterLabelStyle}" />
+                <Label x:Name="XRegister" Text="{Binding Path=Proc.XRegister, StringFormat=X, Mode=OneWay}"
+                        Style="{StaticResource RegisterValueStyle}" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Label x:Name="AccumulatorText" Text="A" Style="{StaticResource RegisterLabelStyle}" />
+                <Label x:Name="Accumulator" Text="{Binding Path=Proc.Accumulator, StringFormat=X, Mode=OneWay}"
+                        Style="{StaticResource RegisterValueStyle}" />
+            </HorizontalStackLayout>
+        </FlexLayout>
+        <!--#endregion REGISTERS-->
+
+        <!--#region Cycle Count & CPU Speed -->
+        <VerticalStackLayout Style="{StaticResource CPUSettingsStyle}">
+            <HorizontalStackLayout>
+                <Label x:Name="CycleCountText" Style="{StaticResource CPUCountLabelStyle}" />
+                <Label x:Name="CycleCount" Text="{Binding Path=NumberOfCycles, StringFormat=X, Mode=OneWay}" Style="{StaticResource CPUCountValueStyle}"/>
+            </HorizontalStackLayout>
+
+            <!--#region Settings -->
+            <HorizontalStackLayout>
+                <Label x:Name="CpuSpeedText" Style="{StaticResource CPUSpeedLabelStyle}" />
+                <Slider x:Name="CpuSpeedSelector" Value="{Binding Path=CpuSpeed}" Style="{StaticResource CPUSpeedSliderStyle}"/>
+            </HorizontalStackLayout>
+            <!--#endregion Settings -->
+        </VerticalStackLayout>
+        <!--#endregion Cycle Count & CPU Speed -->
+
+        <!--#region STATUS FLAGS -->
+        <FlexLayout Style="{StaticResource FlexStatusFlagStyle}">
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="NegativeFlag" IsChecked="{Binding Path=Proc.NegativeFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="NegativeFlagText" Text="N" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="OverflowFlag" IsChecked="{Binding Path=Proc.OverflowFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="OverflowFlagText" Text="V" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="BreakFlag" IsChecked="{Binding Path=Proc.BreakFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="BreakFlagText" Text="B" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="BcdFlag" IsChecked="{Binding Path=Proc.DecimalFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="BcdFlagText" Text="D" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="InteruptFlag" IsChecked="{Binding Path=Proc.DisableInterruptFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="InteruptFlagText" Text="I" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="ZeroFlag" IsChecked="{Binding Path=Proc.ZeroFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="ZeroFlagText" Text="Z" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource StatusStackStyle}">
+                <CheckBox x:Name="CarryFlag" IsChecked="{Binding Path=Proc.CarryFlag, Mode=OneWay}" Style="{StaticResource StatusCheckBoxStyle}" />
+                <Label x:Name="CarryFlagText" Text="C" Style="{StaticResource StatusLabelStyle}" />
+            </HorizontalStackLayout>
+        </FlexLayout>
+        <!--#endregion STATUS FLAGS -->
+
+    </AbsoluteLayout>
+</ContentPage>

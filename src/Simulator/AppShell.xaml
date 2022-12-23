@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Simulator"
+    xmlns:views="clr-namespace:Simulator.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.PresentationMode="NotAnimated"
+    Shell.NavBarHasShadow="True"
+    Shell.NavBarIsVisible="False"
+    x:Class="Simulator.AppShell"
+    x:DataType="Shell"
+    >
+
+    <ShellContent ContentTemplate="{DataTemplate views:Main}"
+        Title="Home"
+        Route="Main"
+        />
+
+    <!--TabBar>
+        <ShellContent ContentTemplate="{DataTemplate views:Main}"
+            Title="Home"
+            Route="Main"
+            />
+        <ShellContent ContentTemplate="{DataTemplate views:OpenFile}"
+            Title="Open"
+            Route="FileOpen"
+            />
+        <ShellContent ContentTemplate="{DataTemplate views:SaveFile}"
+            Title="Save"
+            Route="FileSave"
+            />
+    </TabBar-->
+</Shell>
