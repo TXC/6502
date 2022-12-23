@@ -30,6 +30,9 @@
             <Setter Property="ToolTipProperties.Text" Value="Buttons" />
             <Setter Property="AbsoluteLayout.LayoutBounds" Value="1141,32" />
         </Style>
+        <Style TargetType="HorizontalStackLayout" x:Key="StatusStackStyle">
+            <Setter Property="MinimumHeightRequest" Value="22"/>
+        </Style>
         <Style TargetType="CheckBox" x:Key="StatusCheckBoxStyle">
             <!--Setter Property="Color" Value="White" /-->
             <Setter Property="IsEnabled" Value="False" />
