@@ -36,6 +36,6 @@
 	  <None Remove="NLog" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="NLog" Version="5.1.0" />
+	  <PackageReference Include="NLog" Version="6.2.2" />
 	</ItemGroup>
 </Project>
